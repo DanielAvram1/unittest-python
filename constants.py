@@ -1,4 +1,4 @@
-att_path = '../attachments/'
+att_path = './attachments/'
 MAX_NR = 500
 MIN_NR = 2
 
