@@ -4,35 +4,48 @@ from text_formatting import *
 
 class InputFormattingTestCase(unittest.TestCase):
 
+  def test_wrong_input_path(self):
+    with self.assertRaisesRegex(FileNotFoundError, FISIER_DE_INTRARE_GRESIT):
+      in_file = 'non_existent.in'
+      Solver(in_file)
+
+  def test_empty_input(self):
+    with self.assertRaisesRegex(Exception, FISIER_DE_INTRARE_GOL):
+      in_file = 'empty_input.in'
+      Solver(in_file)
+
   def test_wrong_R(self):
     with self.assertRaisesRegex(Exception, R_NU_E_INT):
       in_file = 'wrong_R_test.in'
       Solver(in_file)
 
+  def test_no_C(self):
+    with self.assertRaisesRegex(Exception, FARA_C):
+      in_file = 'no_C.in'
+      Solver(in_file)
 
   def test_wrong_C(self):
     with self.assertRaisesRegex(Exception, C_NU_E_INT):
       in_file = 'wrong_C_test.in'
       Solver(in_file)
 
-
   def test_R_too_small(self):
-    with self.assertRaisesRegex(Exception, R_ESTE_MAI_MIC_CA_1):
+    with self.assertRaisesRegex(Exception, R_PREA_MIC):
       in_file = 'R_too_small.in'
       Solver(in_file)
 
   def test_C_too_small(self):
-    with self.assertRaisesRegex(Exception, C_ESTE_MAI_MIC_CA_1):
+    with self.assertRaisesRegex(Exception, C_PREA_MIC):
       in_file = 'C_too_small.in'
       Solver(in_file)
 
   def test_R_too_big(self):
-    with self.assertRaisesRegex(Exception, R_ESTE_MAI_MARE_CA_1000):
+    with self.assertRaisesRegex(Exception, R_PREA_MARE):
       in_file = 'R_too_big.in'
       Solver(in_file)
 
   def test_C_too_big(self):
-    with self.assertRaisesRegex(Exception, C_ESTE_MAI_MARE_CA_1000):
+    with self.assertRaisesRegex(Exception, C_PREA_MARE):
       in_file = 'C_too_big.in'
       Solver(in_file)
 

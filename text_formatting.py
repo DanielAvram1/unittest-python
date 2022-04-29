@@ -1,10 +1,15 @@
+from constants import *
+
 R_NU_E_INT = 'R nu e un int.'
 C_NU_E_INT = 'C nu e un int.'
-R_ESTE_MAI_MIC_CA_1 = 'R este mai mic ca 1.'
-C_ESTE_MAI_MIC_CA_1 = "C este mai mic ca 1."
-R_ESTE_MAI_MARE_CA_1000 = "R este mai mare ca 1000."
-C_ESTE_MAI_MARE_CA_1000 = "C este mai mare ca 1000."
+R_PREA_MIC = f'R este mai mic ca {MIN_NR}.'
+C_PREA_MIC = "C este mai mic ca {MIN_NR}."
+R_PREA_MARE = "R este mai mare ca {MAX_NR}."
+C_PREA_MARE = "C este mai mare ca {MAX_NR}."
 NU_SUNT_DRAGONI = "Fisierul de intrare nu contine dragoni."
+FISIER_DE_INTRARE_GOL = 'Fisierul de intrare este gol.'
+FISIER_DE_INTRARE_GRESIT = 'Fisierul de intrare nu exista.'
+FARA_C = 'Fisierul de intrare nu contine C.'
 
 def fis_nu_are_linii(R):
   return f'Fisierul de intrare nu are {R} linii.'

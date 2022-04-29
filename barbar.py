@@ -6,77 +6,84 @@ class Solver():
     self._read_in_file(in_file)
 
   def _read_in_file(self, in_file):
-    with open(att_path + in_file) as f:
-      RC = f.readline().split(' ')
-      try:
-        R = int(RC[0])
-      except ValueError:
-        raise ValueError(R_NU_E_INT) 
-      if R < MIN_NR:
-        raise Exception(R_ESTE_MAI_MIC_CA_1)
-      if R > MAX_NR:
-        raise Exception(R_ESTE_MAI_MARE_CA_1000)
+    try:
+      with open(att_path + in_file) as f:
+        RC = f.readline().split(' ')
+        if RC == ['']:
+          raise Exception(FISIER_DE_INTRARE_GOL)
+        
+        try:
+          R = int(RC[0])
+        except ValueError:
+          raise ValueError(R_NU_E_INT) 
+        if R < MIN_NR:
+          raise Exception(R_PREA_MIC)
+        if R > MAX_NR:
+          raise Exception(R_PREA_MARE)
+        
+        if len(RC) == 1:
+          raise Exception(FARA_C)
+        try:
+          C = int(RC[1])
+        except ValueError:
+          raise ValueError(C_NU_E_INT)
+        
+        if C < MIN_NR:
+          raise Exception(C_PREA_MIC)
+        if C > MAX_NR:
+          raise Exception(C_PREA_MARE)
 
-      try:
-        C = int(RC[1])
-      except ValueError:
-        raise ValueError(C_NU_E_INT)
+        viz = [[False]*C for i in range(R)]
+        dist = [[None]*C for i in range(R)]
+        q = [] # empty queue
+        I = None
+        O = None
+        string_map = f.readlines()
+
+      if len(string_map) != R:
+        raise Exception(fis_nu_are_linii(R))
+
+      for i in range(R):
+        if len(string_map[i]) != C + 1:
+          raise Exception(linia_nu_are_caract(i, C))
+        for j in range(C):
+          if string_map[i][j] == '.':
+            pass
+          elif string_map[i][j] == 'D':
+            dist[i][j] = 0
+            q.append((i, j))
+            viz[i][j] = True
+          elif string_map[i][j] == 'I':
+            I = (i, j)
+          elif string_map[i][j] == '*':
+            dist[i][j] = None
+            viz[i][j] = True
+          elif string_map[i][j] == 'O':
+            O = (i, j)
+          else:
+            raise Exception(caract_nu_e_permis(string_map[i][j]))
+
+      if I is None:
+        raise Exception(NO_I)
+
+      if O is None:
+        raise Exception(NO_O)
       
-      if C < MIN_NR:
-        raise Exception(C_ESTE_MAI_MIC_CA_1)
-      if C > MAX_NR:
-        raise Exception(C_ESTE_MAI_MARE_CA_1000)
+      if len(q) == 0:
+        raise Exception(NU_SUNT_DRAGONI)
 
-      viz = [[False]*C for i in range(R)]
-      dist = [[None]*C for i in range(R)]
-      q = [] # empty queue
-      I = None
-      O = None
-      string_map = f.readlines()
-
-    if len(string_map) != R:
-      raise Exception(fis_nu_are_linii(R))
-
-    for i in range(R):
-      if len(string_map[i]) != C + 1:
-        raise Exception(linia_nu_are_caract(i, C))
-      for j in range(C):
-        if string_map[i][j] == '.':
-          pass
-        elif string_map[i][j] == 'D':
-          dist[i][j] = 0
-          q.append((i, j))
-          viz[i][j] = True
-        elif string_map[i][j] == 'I':
-          I = (i, j)
-        elif string_map[i][j] == '*':
-          dist[i][j] = None
-          viz[i][j] = True
-        elif string_map[i][j] == 'O':
-          O = (i, j)
-        else:
-          raise Exception(caract_nu_e_permis(string_map[i][j]))
-
-    if I is None:
-      raise Exception(NO_I)
-
-    if O is None:
-      raise Exception(NO_O)
-
-    self.viz = viz
-    self.dist = dist
-    self.I = I
-    self.O = O
-    self.q = q
-    self.R = R
-    self.C = C
+      self.viz = viz
+      self.dist = dist
+      self.I = I
+      self.O = O
+      self.q = q
+      self.R = R
+      self.C = C
+    except FileNotFoundError:
+      raise FileNotFoundError(FISIER_DE_INTRARE_GRESIT)
 
 
   def _get_dragons_dist(self):
-    print(len(self.q))
-    if len(self.q) == 0:
-      raise Exception(NU_SUNT_DRAGONI)
-    
     while len(self.q) != 0:
       curr = self.q[0]
 
@@ -149,18 +156,18 @@ def get_output(out_file):
   except ValueError:
     raise ValueError(nu_este_numar(line))  
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
   
-#   file_name = 'no_dragons.in'
+  file_name = 'epty_input.in'
 
-#   solver = Solver(file_name)
-#   solver.solve()
-#   print(solver.answer)
+  solver = Solver(file_name)
+  solver.solve()
+  print(solver.answer)
     
-#   ground_truth = get_output('grader_test1.ok')
-#   print(solver.answer == ground_truth)
+  ground_truth = get_output('grader_test1.ok')
+  print(solver.answer == ground_truth)
 
-#   print(solver.answer)
+  print(solver.answer)
 
 
   
